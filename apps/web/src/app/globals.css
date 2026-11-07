@@ -1,0 +1,29 @@
+@import 'tailwindcss';
+@import '@aisle/ui/web/tokens.css';
+
+/* Components in the shared UI package use Tailwind classes too. */
+@source '../../../../packages/ui/src/web';
+
+@layer base {
+  html {
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100dvh;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-accent-subtle);
+    color: var(--color-text);
+  }
+}

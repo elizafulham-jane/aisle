@@ -1,0 +1,11 @@
+pnpm-lock.yaml
+node_modules
+.next
+.expo
+dist
+coverage
+storybook-static
+supabase/migrations
+packages/db/src/database.types.ts
+packages/ui/src/web/tokens.css
+apps/mobile/.expo

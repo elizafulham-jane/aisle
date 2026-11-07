@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "Aisle",
+    "slug": "aisle",
+    "scheme": "aisle",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#FBFBF8",
+    "ios": {
+      "bundleIdentifier": "com.example.aisle",
+      "supportsTablet": true,
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.example.aisle",
+      "adaptiveIcon": {
+        "backgroundColor": "#FBFBF8",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-apple-authentication",
+      "expo-web-browser",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#FBFBF8",
+          "dark": { "backgroundColor": "#141816" }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

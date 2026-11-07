@@ -1,0 +1,32 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "stream",
+  "globalEnv": ["NODE_ENV", "CI"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "env": ["NEXT_PUBLIC_*", "EXPO_PUBLIC_*", "SUPABASE_SECRET_KEY", "SKIP_ENV_VALIDATION"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "storybook-static/**"]
+    },
+    "build-storybook": {
+      "outputs": ["storybook-static/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {},
+    "typecheck": {},
+    "test": {
+      "env": ["SKIP_ENV_VALIDATION"],
+      "outputs": ["coverage/**"]
+    },
+    "test:e2e": {
+      "dependsOn": ["build"],
+      "env": ["NEXT_PUBLIC_*"],
+      "passThroughEnv": ["PLAYWRIGHT_CHROME"],
+      "cache": false
+    }
+  }
+}

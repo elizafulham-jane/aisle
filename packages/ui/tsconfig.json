@@ -1,0 +1,8 @@
+{
+  "extends": "@aisle/config/tsconfig/library.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["src", "scripts", ".storybook", "vitest.config.ts"],
+  "exclude": ["src/native"]
+}

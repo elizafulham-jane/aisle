@@ -1,0 +1,44 @@
+node_modules/
+.pnpm-store/
+.turbo/
+dist/
+build/
+coverage/
+storybook-static/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+
+# Expo
+.expo/
+ios/
+android/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+web-build/
+
+# Env — never commit secrets
+.env
+.env.*
+!.env.example
+
+# Supabase local
+supabase/.branches/
+supabase/.temp/
+
+# Test artefacts
+playwright-report/
+test-results/
+.db-test/
+
+# OS / editor
+.DS_Store
+*.log
+.vscode/*
+!.vscode/extensions.json
+.idea/

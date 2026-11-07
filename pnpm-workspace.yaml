@@ -1,0 +1,7 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+  - 'supabase/seed'
+
+# Expo/Metro and React Native expect a flat node_modules for native modules.
+# See docs/DECISIONS.md (D-008).

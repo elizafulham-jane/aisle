@@ -1,0 +1,21 @@
+{
+  "name": "@aisle/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.119.0"
+  },
+  "devDependencies": {
+    "@aisle/config": "workspace:*",
+    "eslint": "10.14.0",
+    "typescript": "6.0.3"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "extends": "@aisle/config/tsconfig/base.json",
+  "include": ["src"]
+}
