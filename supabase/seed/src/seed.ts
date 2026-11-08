@@ -7,6 +7,7 @@
  * Runs as the database owner in one transaction and is safe to re-run: previous demo rows
  * are removed first. Never point this at production.
  */
+import { randomUUID } from 'node:crypto';
 import { addDays } from '@aisle/domain';
 import pg from 'pg';
 import {
@@ -63,7 +64,9 @@ async function createUser(db: Client, email: string, name: string): Promise<stri
       )
     ).rows.map((r) => r.column_name),
   );
+  // Real Supabase auth.users has no default id, so always supply one.
   const values: Record<string, unknown> = {
+    id: randomUUID(),
     email,
     raw_user_meta_data: JSON.stringify({ full_name: name }),
     raw_app_meta_data: JSON.stringify({ provider: 'email', providers: ['email'] }),
@@ -74,6 +77,15 @@ async function createUser(db: Client, email: string, name: string): Promise<stri
   if (cols.has('email_confirmed_at')) values.email_confirmed_at = new Date().toISOString();
   if (cols.has('created_at')) values.created_at = new Date().toISOString();
   if (cols.has('updated_at')) values.updated_at = new Date().toISOString();
+  // Supabase Auth reads these as strings; NULL breaks magic-link sign-in for seeded users.
+  for (const c of [
+    'confirmation_token',
+    'recovery_token',
+    'email_change_token_new',
+    'email_change',
+  ]) {
+    if (cols.has(c)) values[c] = '';
+  }
 
   const keys = Object.keys(values);
   const { id } = await one<{ id: string }>(
