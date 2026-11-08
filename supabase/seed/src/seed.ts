@@ -100,7 +100,7 @@ async function createUser(db: Client, email: string, name: string): Promise<stri
   if (hasIdentities.rowCount) {
     await db.query(
       `insert into auth.identities (provider_id, user_id, identity_data, provider, created_at, updated_at, last_sign_in_at)
-       values ($1, $1, $2, 'email', now(), now(), now())`,
+       values ($1::text, $1::uuid, $2::jsonb, 'email', now(), now(), now())`,
       [id, JSON.stringify({ sub: id, email, email_verified: true })],
     );
   }
