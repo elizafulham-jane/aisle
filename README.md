@@ -89,6 +89,15 @@ is missing. Never commit `.env*` files other than the examples.
    `{{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=email`
 5. **Auth → Providers**: enable Apple and Google (below).
 
+### GitHub secrets for database deploys
+
+The `Deploy database (dev)` workflow applies new migrations to the dev project. In the repo's
+**Settings → Secrets and variables → Actions**, add `SUPABASE_PROJECT_REF` (the 20-letter
+ref), `SUPABASE_DB_PASSWORD`, and `SUPABASE_ACCESS_TOKEN`. Create the token in Supabase under
+**Account → Access Tokens**, limited to the dev project, with: Project Settings (Read),
+API Keys (Read), API Key Secrets (Read), Connection Pooling (Read), Database (Read-write),
+Migrations (Read-write).
+
 ### Google sign-in (Google Cloud)
 
 Create an OAuth client of type _Web application_ with redirect URI
