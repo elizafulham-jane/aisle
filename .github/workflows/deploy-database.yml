@@ -46,7 +46,14 @@ jobs:
           version: latest
       - name: Link project
         if: steps.secrets.outputs.ready == 'true'
-        run: supabase link --project-ref "$SUPABASE_PROJECT_REF"
+        run: |
+          # Accept the bare ref, a dashboard/API URL, or a value with stray whitespace.
+          ref="$(printf '%s' "$SUPABASE_PROJECT_REF" | tr -d '[:space:]' | sed -E 's#^https?://##; s#\.supabase\.co.*$##; s#^.*/project/##; s#/.*$##')"
+          if ! printf '%s' "$ref" | grep -Eq '^[a-z]{20}$'; then
+            echo "::error::SUPABASE_PROJECT_REF must be the 20-letter project ref (found ${#ref} characters after cleanup)."
+            exit 1
+          fi
+          supabase link --project-ref "$ref"
       - name: Show pending migrations
         if: steps.secrets.outputs.ready == 'true'
         run: supabase migration list
