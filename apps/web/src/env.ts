@@ -19,7 +19,12 @@ export const env = createEnv({
     SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+    // On Vercel, fall back to the deployment's own address so previews work without config.
+    NEXT_PUBLIC_SITE_URL:
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      (process.env.NEXT_PUBLIC_VERCEL_URL
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+        : undefined),
   },
   skipValidation: process.env.SKIP_ENV_VALIDATION === '1',
   emptyStringAsUndefined: true,
