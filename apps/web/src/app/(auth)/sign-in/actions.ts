@@ -1,8 +1,9 @@
 'use server';
 
 import { safeRedirectPath, signInWithEmailSchema } from '@aisle/validation';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { env } from '@/env';
+import { siteOrigin } from '@/lib/origin';
 import { createClient } from '@/lib/supabase/server';
 
 export type SignInState =
@@ -10,8 +11,13 @@ export type SignInState =
   | { status: 'sent'; email: string }
   | { status: 'error'; field?: 'email'; message: string };
 
-function callbackUrl(next: string): string {
-  return `${env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=${encodeURIComponent(next)}`;
+/**
+ * Where the auth server should send the user back to: the address they are using right now.
+ * Supabase only honours it if it is in the project's Redirect URLs allow-list.
+ */
+async function callbackUrl(next: string): Promise<string> {
+  const origin = siteOrigin(await headers());
+  return `${origin}/auth/callback?next=${encodeURIComponent(next)}`;
 }
 
 /** Send a magic link. Always responds the same way whether or not the account exists. */
@@ -28,7 +34,7 @@ export async function sendMagicLink(_prev: SignInState, formData: FormData): Pro
   const { error } = await supabase.auth.signInWithOtp({
     email: parsed.data.email,
     options: {
-      emailRedirectTo: callbackUrl(safeRedirectPath(parsed.data.next)),
+      emailRedirectTo: await callbackUrl(safeRedirectPath(parsed.data.next)),
       shouldCreateUser: true,
     },
   });
@@ -53,7 +59,7 @@ export async function signInWithProvider(formData: FormData): Promise<void> {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
-    options: { redirectTo: callbackUrl(next) },
+    options: { redirectTo: await callbackUrl(next) },
   });
   if (error || !data.url) {
     redirect('/sign-in?error=provider');
