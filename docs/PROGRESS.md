@@ -40,7 +40,7 @@
 | Criterion                                                                       | Result                                                                                                                                                                                                                     | Evidence                                                                     |
 | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | Sign up and sign in on iOS, Android and web with magic link, Apple and Google   | **Partly verified.** Code complete; web sign-in screens pass E2E; iOS and Android bundles compile. End-to-end sign-in **blocked** until a Supabase project, Google OAuth client and Apple Developer account are connected. | `apps/web/e2e/auth.spec.ts` (10 passing), `expo export` for iOS and Android  |
-| CI runs lint, type checks and tests on every PR; web preview deploys per branch | **Partly verified.** Workflow written and every step passes locally; first real run happens once the repo is on GitHub. Previews **blocked** until Vercel is connected.                                                    | `.github/workflows/ci.yml`                                                   |
+| CI runs lint, type checks and tests on every PR; web preview deploys per branch | **CI: pass** on GitHub (lint, types, unit, build, E2E, migrations + RLS tests on real Supabase, seed). Migrations auto-deploy to the dev project. Previews **blocked** until Vercel is connected.                          | `.github/workflows/ci.yml`                                                   |
 | RLS tests prove user A cannot read or write wedding B                           | **Pass**                                                                                                                                                                                                                   | `supabase/tests/010_wedding_isolation.test.sql` (32 assertions) plus 020–040 |
 
 ### Known issues
@@ -48,6 +48,7 @@
 - Mobile stores the session in AsyncStorage; move to encrypted storage in Phase 1 (D-013).
 - Generated DB types came from a local shim; the CI types check is advisory until regenerated
   against real Supabase (D-011).
+- Dev Supabase project is in eu-west-1 (Ireland); production region still to decide (D-015).
 - Phone OTP deferred to Phase 1 (D-018).
 - Sentry and PostHog are not wired yet (Phase 1, once projects exist).
 - Bundle id `com.example.aisle` and the "Aisle" name are placeholders (D-003).
