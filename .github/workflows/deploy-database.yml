@@ -53,7 +53,8 @@ jobs:
             echo "::error::SUPABASE_PROJECT_REF must be the 20-letter project ref (found ${#ref} characters after cleanup)."
             exit 1
           fi
-          supabase link --project-ref "$ref"
+          supabase link --project-ref "$ref" --debug 2>&1 | grep -viE "password|token|authorization|apikey" | grep -iE "pooler|GET |status|forbidden|denied|permission|warn|error" || true
+          ls -la supabase/.temp || true
       - name: Show pending migrations
         if: steps.secrets.outputs.ready == 'true'
         run: supabase migration list --remote
